@@ -6,7 +6,7 @@ const {
   updateSinglePlant,
   createPlantEntry,
   deleteSinglePlant,
-} = require("../controllers/plantController");
+} = require("../controllers/plant-controller");
 
 router.route("/").get(getAllPlants).post(createPlantEntry);
 
