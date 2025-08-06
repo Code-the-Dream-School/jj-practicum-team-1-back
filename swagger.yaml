@@ -1,0 +1,94 @@
+openapi: 3.0.0
+info:
+  title: PLANT APP API
+  version: 1.0.0
+servers:
+  - url: https://plantapp-2mp9.onrender.com/api/v1
+    variables: {}
+paths:
+ 
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login user
+      operationId: LoginUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginUserRequest"
+            example:
+              email: mama@gmail.com
+              password: shewareg
+      responses:
+        "200":
+          description: Logged in
+      security: []
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Register user
+      operationId: RegisterUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterUserRequest"
+            example:
+              name: elinatal
+              email: baby@gmail.com
+              password: timotios
+      responses:
+        "201":
+          description: Registered
+      security: []
+
+components:
+  schemas:
+    RegisterUserRequest:
+      title: RegisterUserRequest
+      required:
+        - name
+        - email
+        - password
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        name: bob
+        email: bob@gmail.com
+        password: secret
+    LoginUserRequest:
+      title: LoginUserRequest
+      required:
+        - email
+        - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        email: susan@gmail.com
+        password: secret
+    
+
+  securitySchemes:
+    httpBearer:
+      type: http
+      scheme: bearer
+security:
+  - httpBearer: []
+tags:
+  - name: Auth
+    description: ""
