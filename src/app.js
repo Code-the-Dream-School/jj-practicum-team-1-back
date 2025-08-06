@@ -8,6 +8,9 @@ const notFoundMiddleware = require("./middleware/not-found.js");
 const errorHandlerMiddleware = require("./middleware/error-handler.js");
 const authRouter = require("./routes/auth-router.js");
 const plantRouter = require("./routes/plant-router.js");
+const swaggerUI = require("swagger-ui-express");
+const YAML = require("yamljs");
+const swaggerDocument = YAML.load("./swagger.yaml");
 
 // middleware
 app.use(cors());
@@ -16,6 +19,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(logger("dev"));
 app.use(express.static("public"));
 app.use(favicon(__dirname + "/public/favicon.ico"));
+
+app.get("/", (req, res) => {
+  res.send('<h1>Plant API</h1><a href="/api-docs">Documentation</a>');
+});
+
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 // routes
 app.use("/api/v1/auth", authRouter);
