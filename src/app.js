@@ -7,9 +7,10 @@ const logger = require("morgan");
 const notFoundMiddleware = require("./middleware/not-found.js");
 const errorHandlerMiddleware = require("./middleware/error-handler.js");
 const authRouter = require("./routes/auth-router.js");
-const plantRouter = require("./routes/plant-router.js");
+const plantsRouter = require("./routes/plants-router.js");
 const swaggerUI = require("swagger-ui-express");
 const YAML = require("yamljs");
+const auth = require("./middleware/authentication.js");
 const swaggerDocument = YAML.load("./swagger.yaml");
 
 // middleware
@@ -28,7 +29,7 @@ app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 // routes
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/plants", plantRouter);
+app.use("/api/v1/plants", auth, plantsRouter);
 
 // error handlers
 app.use(errorHandlerMiddleware);
