@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
+const { StatusCodes } = require("http-status-codes");
 const CustomAPIError = require("../errors/custom-error");
-
 
 const auth = async (req, res, next) => {
   const authHeader = req.headers.authorization;
