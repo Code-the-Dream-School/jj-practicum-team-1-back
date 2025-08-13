@@ -5,8 +5,8 @@ info:
 servers:
   - url: https://plantapp-2mp9.onrender.com/api/v1
     variables: {}
+
 paths:
- 
   /auth/login:
     post:
       tags:
@@ -20,12 +20,22 @@ paths:
             schema:
               $ref: "#/components/schemas/LoginUserRequest"
             example:
+              name: Mama
               email: mama@gmail.com
               password: shewareg
       responses:
         "200":
           description: Logged in
+          content:
+            application/json:
+              example:
+                {
+                  "user":
+                    { "name": "Mama", "userId": "68958ea9316675518a96b222" },
+                  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODk1OGVhOTMxNjY3NTUxOGE5NmI0MzkiLCJuYW1lIjoiU3R1IiwiaWF0IjoxNzU1MDQ2Mjc1LCJleHAiOjE3NTc2MzgyNzV9.-WmPybA09SJ0I5feFY7rgFlaEPVBBrC-aomp1QwrVBv",
+                }
       security: []
+
   /auth/register:
     post:
       tags:
@@ -45,7 +55,198 @@ paths:
       responses:
         "201":
           description: Registered
+          content:
+            application/json:
+              example:
+                {
+                  "user":
+                    {
+                      "name": "elinatal",
+                      "userId": "68958ea9316675518a96b234",
+                    },
+                  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODk1OGVhOTMxNjY3NTUxOGE5NmI0MzkiLCJuYW1lIjoiU3R1IiwiaWF0IjoxNzU1MDQ2Mjc1LCJleHAiOjE3NTc2MzgyNzV9.-WmPybA09SJ0I5feFY7rgFlaEPVBBrC-aomp1QwrfEv",
+                }
       security: []
+
+  /plants:
+    post:
+      tags:
+        - Plants
+      summary: Create plant entry
+      operationId: CreatePlantEntry
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreatePlantEntryRequest"
+            example:
+              name: "palm tree"
+              imageURL: "www.coastal-trees.com"
+              notes: "It has coconuts"
+              location: "The beach"
+        required: true
+      responses:
+        "201":
+          description: "Successful Response"
+          content:
+            application/json:
+              example:
+                {
+                  "plant":
+                    {
+                      "name": "palm tree",
+                      "imageURL": "www.coastal-trees.com",
+                      "notes": "It has coconuts",
+                      "location": "The beach",
+                      "createdBy": "68958ea9316675518a96b420",
+                      "_id": "689bd41309dc34a1f4082111",
+                      "createdAt": "2025-08-12T23:53:55.317Z",
+                      "updatedAt": "2025-08-12T23:53:55.317Z",
+                      "__v": 0,
+                    },
+                }
+          headers: {}
+      deprecated: false
+
+    get:
+      tags:
+        - Plants
+      summary: Get all plant entries
+      operationId: GetAllPlantEntries
+      parameters: []
+      responses:
+        "200":
+          description: "Successful Response"
+          content:
+            application/json:
+              example:
+                {
+                  "plants":
+                    [
+                      {
+                        "_id": "68979fc17f6eddd77c76db3s",
+                        "name": "rose",
+                        "createdBy": "68958ea9316675518a96b421",
+                        "imageURL": "www.rose-pic.com",
+                        "notes": "This rose is beautiful!",
+                        "location": "222 N Smith Ln",
+                        "createdAt": "2025-08-09T19:21:37.403Z",
+                        "updatedAt": "2025-08-09T19:21:37.403Z",
+                        "__v": 0,
+                      },
+                      {
+                        "_id": "6897a1d5b6dc952f78612efr",
+                        "name": "cactus",
+                        "imageURL": "www.crazy-cactus-img.com",
+                        "notes": "This was growing in my backyard",
+                        "location": "my backyard",
+                        "createdBy": "68958ea9316675518a96b476",
+                        "createdAt": "2025-08-09T19:30:29.924Z",
+                        "updatedAt": "2025-08-09T19:30:29.924Z",
+                        "__v": 0,
+                      },
+                    ],
+                  "count": 2,
+                }
+          headers: {}
+      deprecated: false
+
+  /plants/{plantID}:
+    parameters:
+      - in: path
+        name: plantID
+        schema:
+          type: string
+          example: 68991aa9444dc94a77ead824
+        required: true
+        description: The plant ID
+
+    get:
+      tags:
+        - Plants
+      summary: Get single plant entry
+      operationId: GetSinglePlantEntry
+      parameters: []
+      responses:
+        "200":
+          description: "Successful Response"
+          content:
+            application/json:
+              example:
+                {
+                  "plant":
+                    {
+                      "_id": "68991aa9444dc94a77ead848",
+                      "name": "oak tree",
+                      "imageURL": "www.oaktrees.net",
+                      "notes": "Massive oak tree I saw!",
+                      "location": "near the forest south of town",
+                      "createdBy": "68958ea9316675518a96b439",
+                      "createdAt": "2025-08-10T22:18:17.679Z",
+                      "updatedAt": "2025-08-10T23:42:03.742Z",
+                      "__v": 0,
+                    },
+                }
+          headers: {}
+      deprecated: false
+
+    patch:
+      tags:
+        - Plants
+      summary: Update plant entry
+      operationId: UpdatePlantEntry
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdatePlantEntryRequest"
+            example:
+              name: "oak tree"
+              imageURL: "www.oaktrees.net"
+              notes: "Massive oak tree I saw!"
+              location: "near the forest south of town"
+        required: true
+      responses:
+        "200":
+          description: "Successful Response"
+          content:
+            application/json:
+              example:
+                {
+                  "plant":
+                    {
+                      "_id": "68991aa9444dc94a77ead848",
+                      "name": "oak tree",
+                      "imageURL": "www.oaktrees.net",
+                      "notes": "Massive oak tree I saw!",
+                      "location": "near the forest south of town",
+                      "createdBy": "68958ea9316675518a96b439",
+                      "createdAt": "2025-08-10T22:18:17.679Z",
+                      "updatedAt": "2025-08-13T00:28:09.856Z",
+                      "__v": 0,
+                    },
+                }
+          headers: {}
+      deprecated: false
+
+    delete:
+      tags:
+        - Plants
+      summary: Delete plant entry
+      operationId: DeleteExercise
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              example: { msg: "The entry was successfully deleted" }
+          headers: {}
+      deprecated: false
 
 components:
   schemas:
@@ -67,6 +268,7 @@ components:
         name: bob
         email: bob@gmail.com
         password: secret
+
     LoginUserRequest:
       title: LoginUserRequest
       required:
@@ -81,14 +283,55 @@ components:
       example:
         email: susan@gmail.com
         password: secret
-    
+
+    CreatePlantEntryRequest:
+      title: CreatePlantEntryRequest
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+        imageURL:
+          type: string
+        notes:
+          type: string
+        location:
+          type: string
+      example:
+        name: oak tree
+        imageURL: www.oaktrees.net
+        notes: Massive oak tree I saw!
+        location: near the forest south of town
+
+    UpdatePlantEntryRequest:
+      title: UpdatePlantEntryRequest
+      type: object
+      properties:
+        name:
+          type: string
+        imageURL:
+          type: string
+        notes:
+          type: string
+        location:
+          type: string
+      example:
+        name: oak tree
+        imageURL: www.plant-life.com
+        notes: Massive oak tree I saw!
+        location: 231 Easy Street
 
   securitySchemes:
     httpBearer:
       type: http
       scheme: bearer
+
 security:
   - httpBearer: []
+
 tags:
   - name: Auth
-    description: ""
+    description: User authentication with email & password
+  - name: Plants
+    description: Logged in user operation for creating and storing plant data
