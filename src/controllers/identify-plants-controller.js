@@ -14,7 +14,7 @@ const identifyPlants = async (req, res) => {
     form.append("organs", "auto");
     form.append("images", req.file.buffer, req.file.originalname);
 
-    const PLANTNET_KEY = process.env.PLANTNET_KEY || "2b10LvWVdtfZ81WthwYcu2qe";
+    const PLANTNET_KEY = process.env.PLANTNET_KEY;
 
     const response = await axios.post(
       `https://my-api.plantnet.org/v2/identify/all?api-key=${PLANTNET_KEY}`,
