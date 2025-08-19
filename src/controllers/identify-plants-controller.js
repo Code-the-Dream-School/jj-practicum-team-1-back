@@ -1,37 +1,70 @@
 const { StatusCodes } = require("http-status-codes");
 const CustomAPIError = require("../errors/custom-error");
-const fs = require("node:fs");
 const FormData = require("form-data");
 const axios = require("axios");
-const { log } = require("node:console");
 
 const identifyPlants = async (req, res) => {
-  try {
-    if (!req.file) {
-      return res.status(400).json({ error: "No image file provided" });
-    }
-    const form = new FormData();
-    form.append("organs", "auto");
-    form.append("images", req.file.buffer, req.file.originalname);
+  if (!req.file) {
+    throw new CustomAPIError("No image file provided", StatusCodes.BAD_REQUEST);
+  }
 
-    const PLANTNET_KEY = process.env.PLANTNET_KEY;
+  const form = new FormData();
+  form.append("organs", "auto");
+  form.append("images", req.file.buffer, req.file.originalname);
 
-    const response = await axios.post(
-      `https://my-api.plantnet.org/v2/identify/all?api-key=${PLANTNET_KEY}`,
-      form,
-      { headers: form.getHeaders() }
-    );
+  const PLANTNET_KEY = process.env.PLANTNET_KEY;
 
-    const { data } = response;
-
-    res.status(StatusCodes.OK).json({ data });
-  } catch (error) {
-    console.error("Error identifying plant:", error.message);
+  if (!PLANTNET_KEY) {
     throw new CustomAPIError(
-      "Failed to identify plant",
-      StatusCodes.INTERNAL_SERVER_ERROR
+      "No PLANTNET_KEY provided",
+      StatusCodes.BAD_REQUEST
     );
   }
+
+  const identifierResponse = await axios.post(
+    `https://my-api.plantnet.org/v2/identify/all?api-key=${PLANTNET_KEY}`,
+    form,
+    { headers: form.getHeaders() }
+  );
+
+  const scientificName =
+    identifierResponse.data?.results?.[0]?.species?.genus?.scientificName;
+
+  if (!scientificName) {
+    throw new CustomAPIError(
+      "Nothing found from PlantNet",
+      StatusCodes.NOT_FOUND
+    );
+  }
+
+  const scientificNameWithCorrectURLFormat = scientificName.replaceAll(
+    " ",
+    "+"
+  );
+
+  const PERENUAL_KEY = process.env.PERENUAL_KEY;
+
+  if (!PERENUAL_KEY) {
+    throw new CustomAPIError(
+      "No PERENUAL_KEY provided",
+      StatusCodes.BAD_REQUEST
+    );
+  }
+
+  const scientificNameResponse = await axios.get(
+    `https://perenual.com/api/v2/species-list?key=${PERENUAL_KEY}=${scientificNameWithCorrectURLFormat}`
+  );
+
+  const { data } = scientificNameResponse;
+  console.log("data:", data.total);
+
+  if (data.total === 0) {
+    return res
+      .status(StatusCodes.NOT_FOUND)
+      .json({ msg: "Sorry, no results were found" });
+  }
+
+  res.status(StatusCodes.OK).json({ data });
 };
 
 module.exports = { identifyPlants };

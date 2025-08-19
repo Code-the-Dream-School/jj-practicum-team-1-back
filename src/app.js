@@ -34,7 +34,7 @@ app.use("/api/v1/plants", auth, plantsRouter);
 app.use("/api/v1/identifyPlants", auth, identifyPlantsRouter);
 
 // error handlers
-app.use(errorHandlerMiddleware);
 app.use(notFoundMiddleware);
+app.use(errorHandlerMiddleware);
 
 module.exports = app;
