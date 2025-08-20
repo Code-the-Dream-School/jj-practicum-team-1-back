@@ -58,13 +58,19 @@ const identifyPlants = async (req, res) => {
   const { data } = scientificNameResponse;
   console.log("data:", data.total);
 
-  if (data.total === 0) {
-    return res
-      .status(StatusCodes.NOT_FOUND)
-      .json({ msg: "Sorry, no results were found" });
-  }
+  // if (data.total === 0) {
+  //   throw new CustomAPIError(
+  //     "Sorry, no results were found",
+  //     StatusCodes.NOT_FOUND
+  //   );
+  // }
 
-  res.status(StatusCodes.OK).json({ data });
+  res.status(StatusCodes.OK).json({
+    plantnet: identifierResponse.data,
+    perenual: scientificNameResponse.data,
+  });
 };
 
 module.exports = { identifyPlants };
+
+//TODO Find the right data from plantnet to plug into perenual
