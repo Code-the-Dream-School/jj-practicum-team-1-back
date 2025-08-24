@@ -7,14 +7,14 @@ const errorHandlerMiddleware = (err, req, res, next) => {
   }
 
   let customError = {
-    statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
-    msg: err.message || "Something went wrong. Try again later.",
+    statusCode:
+      err.statusCode || err.status || StatusCodes.INTERNAL_SERVER_ERROR,
+    msg:
+      err.response.data.message ||
+      err.response.statusText ||
+      err.message ||
+      "Something went wrong. Try again later.",
   };
-
-  if (err.status === 404) {
-    (customError.statusCode = StatusCodes.NOT_FOUND),
-      (customError.msg = "Sorry, no results found");
-  }
 
   // Mongoose validation error
   if (err.name === "ValidationError") {
