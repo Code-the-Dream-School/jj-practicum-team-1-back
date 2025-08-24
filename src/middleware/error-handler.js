@@ -11,6 +11,11 @@ const errorHandlerMiddleware = (err, req, res, next) => {
     msg: err.message || "Something went wrong. Try again later.",
   };
 
+  if (err.status === 404) {
+    (customError.statusCode = StatusCodes.NOT_FOUND),
+      (customError.msg = "Sorry, no results found");
+  }
+
   // Mongoose validation error
   if (err.name === "ValidationError") {
     customError.msg = Object.values(err.errors)
