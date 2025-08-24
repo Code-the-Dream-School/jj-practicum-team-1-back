@@ -247,6 +247,198 @@ paths:
           headers: {}
       deprecated: false
 
+  /identifyPlants:
+    post:
+      tags:
+        - Identify Plants
+      summary: Identify plant by image
+      operationId: identifyPlants
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              $ref: "#/components/schemas/IdentifyPlantsRequest"
+              properties:
+                images:
+                  type: string
+                  format: binary
+        required: true
+      responses:
+        "200":
+          description: "Successful Response"
+          content:
+            application/json:
+              example:
+                {
+                  "data":
+                    [
+                      {
+                        "id": 2498,
+                        "common_name": "Venus fly trap",
+                        "scientific_name": ["Dionaea muscipula"],
+                        "other_name": [],
+                        "family": "Droseraceae",
+                        "hybrid": null,
+                        "authority": null,
+                        "subspecies": null,
+                        "cultivar": null,
+                        "variety": null,
+                        "species_epithet": "muscipula",
+                        "genus": "Dionaea",
+                        "default_image":
+                          {
+                            "license": 45,
+                            "license_name": "Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)",
+                            "license_url": "https://creativecommons.org/licenses/by-sa/3.0/deed.en",
+                            "original_url": "https://perenual.com/storage/species_image/2498_dionaea_muscipula/og/2560px-Dionaea_muscipula2C_exhibition_in_Botanical_garden_Brno.jpg",
+                            "regular_url": "https://perenual.com/storage/species_image/2498_dionaea_muscipula/regular/2560px-Dionaea_muscipula2C_exhibition_in_Botanical_garden_Brno.jpg",
+                            "medium_url": "https://perenual.com/storage/species_image/2498_dionaea_muscipula/medium/2560px-Dionaea_muscipula2C_exhibition_in_Botanical_garden_Brno.jpg",
+                            "small_url": "https://perenual.com/storage/species_image/2498_dionaea_muscipula/small/2560px-Dionaea_muscipula2C_exhibition_in_Botanical_garden_Brno.jpg",
+                            "thumbnail": "https://perenual.com/storage/species_image/2498_dionaea_muscipula/thumbnail/2560px-Dionaea_muscipula2C_exhibition_in_Botanical_garden_Brno.jpg",
+                          },
+                      },
+                    ],
+                  "length": 1,
+                }
+          headers: {}
+      deprecated: false
+
+  /identifyPlants/{plantID}:
+    parameters:
+      - in: path
+        name: plantID
+        schema:
+          type: string
+          example: 502
+        required: true
+        description: The plant ID
+
+    get:
+      tags:
+        - Identify Plants
+      summary: Get single plant data
+      operationId: identifySinglePlant
+      parameters: []
+      responses:
+        "200":
+          description: "Successful Response"
+          content:
+            application/json:
+              example:
+                {
+                  "data":
+                    {
+                      "id": 502,
+                      "common_name": "hot water plant",
+                      "scientific_name": ["Achimenes (group)"],
+                      "other_name": [],
+                      "family": "Gesneriaceae",
+                      "hybrid": null,
+                      "authority": null,
+                      "subspecies": null,
+                      "cultivar": null,
+                      "variety": null,
+                      "species_epithet": "(group)",
+                      "genus": "Achimenes",
+                      "origin":
+                        [
+                          "Mexico",
+                          "Guatemala",
+                          "Honduras",
+                          "Costa Rica",
+                          "Panama",
+                          "Colombia",
+                          "Venezuela",
+                          "Ecuador",
+                          "Peru",
+                        ],
+                      "type": "Herbs",
+                      "dimensions":
+                        [
+                          {
+                            "type": null,
+                            "min_value": 1,
+                            "max_value": 2,
+                            "unit": "feet",
+                          },
+                        ],
+                      "cycle": "Herbaceous Perennial",
+                      "attracts": [],
+                      "propagation":
+                        [
+                          "Division",
+                          "Cutting",
+                          "Seed Propagation",
+                          "Tissue Culture",
+                        ],
+                      "hardiness": { "min": "10", "max": "11" },
+                      "hardiness_location":
+                        {
+                          "full_url": "https://perenual.com/api/hardiness-map?species_id=502&size=og&key=sk-7wRB68a4e4efc60fe11920",
+                          "full_iframe": "<iframe frameborder=0 scrolling=yes seamless=seamless width=1000 height=550 style='margin:auto;' src='https://perenual.com/api/hardiness-map?species_id=502&size=og&key=sk-7wRB68a4e4efc60fe11920'></iframe>",
+                        },
+                      "watering": "Average",
+                      "watering_general_benchmark":
+                        { "value": null, "unit": "days" },
+                      "plant_anatomy": [],
+                      "sunlight": ["part shade"],
+                      "pruning_month":
+                        [
+                          "May",
+                          "March",
+                          "April",
+                          "May",
+                          "June",
+                          "July",
+                          "August",
+                          "September",
+                        ],
+                      "pruning_count": [],
+                      "seeds": false,
+                      "maintenance": "Moderate",
+                      "care_guides": "http://perenual.com/api/species-care-guide-list?species_id=502&key=sk-7wRB68a4e4efc60fe11920",
+                      "soil": [],
+                      "growth_rate": "Low",
+                      "drought_tolerant": false,
+                      "salt_tolerant": false,
+                      "thorny": false,
+                      "invasive": false,
+                      "tropical": false,
+                      "indoor": true,
+                      "care_level": "Medium",
+                      "pest_susceptibility": [],
+                      "flowers": true,
+                      "flowering_season": null,
+                      "cones": false,
+                      "fruits": false,
+                      "edible_fruit": false,
+                      "harvest_season": null,
+                      "leaf": true,
+                      "edible_leaf": false,
+                      "cuisine": false,
+                      "medicinal": false,
+                      "poisonous_to_humans": false,
+                      "poisonous_to_pets": false,
+                      "description": "The Hot Water Plant is an awesome choice of species for any avid gardener. It is a perennial plant, with unique and exotic blooms in a variety of shapes and colors, that can be grown indoors or outdoors. These plants are incredibly adaptive, thriving in all sorts of climates, from warm rainforest environments to cool temperate locations. In order to grow them, simply fill any container with water, place the root-ball into it, and enjoy the beautiful flowers that emerge for months. Hot Water Plants are also great for propagating and are incredibly low-maintenance, surviving both drought and short-term flooding easily. A truly amazing species that anyone can grow.",
+                      "default_image": null,
+                      "other_images": "Upgrade Plan To Supreme For Access https://perenual.com/subscription-api-pricing. Im sorry",
+                      "xWateringQuality": "Upgrade Plan To Supreme For Access https://perenual.com/subscription-api-pricing. Im sorry",
+                      "xWateringPeriod": "Upgrade Plan To Supreme For Access https://perenual.com/subscription-api-pricing. Im sorry",
+                      "xWateringAvgVolumeRequirement": "Upgrade Plan To Supreme For Access https://perenual.com/subscription-api-pricing. Im sorry",
+                      "xWateringDepthRequirement": "Upgrade Plan To Supreme For Access https://perenual.com/subscription-api-pricing. Im sorry",
+                      "xWateringBasedTemperature": "Upgrade Plan To Supreme For Access https://perenual.com/subscription-api-pricing. Im sorry",
+                      "xWateringPhLevel": "Upgrade Plan To Supreme For Access https://perenual.com/subscription-api-pricing. Im sorry",
+                      "xSunlightDuration": "Upgrade Plan To Supreme For Access https://perenual.com/subscription-api-pricing. Im sorry",
+                      "xTemperatureTolence": "Upgrade Plan To Supreme For Access https://perenual.com/subscription-api-pricing. Im sorry",
+                      "xPlantSpacingRequirement": "Upgrade Plan To Supreme For Access https://perenual.com/subscription-api-pricing. Im sorry",
+                    },
+                }
+          headers: {}
+      deprecated: false
+
 components:
   schemas:
     RegisterUserRequest:
@@ -320,6 +512,14 @@ components:
         imageURL: www.plant-life.com
         notes: Massive oak tree I saw!
         location: 231 Easy Street
+
+    IdentifyPlantsRequest:
+      title: IdentifyPlantsRequest
+      type: object
+      properties:
+        image:
+          type: string
+          format: binary
 
   securitySchemes:
     httpBearer:
