@@ -1,8 +1,15 @@
 const admin = require("firebase-admin");
 const { getStorage } = require("firebase-admin/storage");
 
+const fs = require("fs");
 
-const serviceAccount = require("./firebase-key.json");
+let serviceAccount;
+
+if (fs.existsSync("/etc/secrets/firebase-key.json")) {
+  serviceAccount = require("/etc/secrets/firebase-key.json");
+} else {
+  serviceAccount = require("./firebase-key.json");
+}
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
