@@ -2,21 +2,20 @@ const { StatusCodes } = require("http-status-codes");
 const CustomAPIError = require("../errors/custom-error");
 const FormData = require("form-data");
 const axios = require("axios");
+const perenualAPI = require("../util/perenualAPI");
 
 const PLANTNET_KEY = process.env.PLANTNET_KEY;
-const PERENUAL_KEY = process.env.PERENUAL_KEY;
 
-if (!PERENUAL_KEY) {
-  throw new CustomAPIError("No PERENUAL_KEY provided", StatusCodes.BAD_REQUEST);
-}
-
-if (!PLANTNET_KEY) {
-  throw new CustomAPIError("No PLANTNET_KEY provided", StatusCodes.BAD_REQUEST);
-}
-
-const identifyPlants = async (req, res) => {
+const identifyImage = async (req, res) => {
   if (!req.file) {
     throw new CustomAPIError("No image file provided", StatusCodes.BAD_REQUEST);
+  }
+
+  if (!PLANTNET_KEY) {
+    throw new CustomAPIError(
+      "No PLANTNET_KEY provided",
+      StatusCodes.BAD_REQUEST
+    );
   }
 
   const form = new FormData();
@@ -50,12 +49,12 @@ const identifyPlants = async (req, res) => {
   const plantnetScientificNameCorrectURLFormat =
     plantnetScientificName.replaceAll(" ", "+");
 
-  const perenualCommonNameResponse = await axios.get(
-    `https://perenual.com/api/v2/species-list?key=${PERENUAL_KEY}=${plantnetCommonNameCorrectURLFormat}`
+  const perenualCommonNameResponse = await perenualAPI(
+    plantnetCommonNameCorrectURLFormat
   );
 
-  const perenualScientificNameResponse = await axios.get(
-    `https://perenual.com/api/v2/species-list?key=${PERENUAL_KEY}=${plantnetScientificNameCorrectURLFormat}`
+  const perenualScientificNameResponse = await perenualAPI(
+    plantnetScientificNameCorrectURLFormat
   );
 
   if (
@@ -87,16 +86,34 @@ const identifyPlants = async (req, res) => {
   });
 };
 
-const plantData = async (req, res) => {
+const singlePlantData = async (req, res) => {
   const { id } = req.params;
 
-  const response = await axios.get(
-    `https://perenual.com/api/v2/species/details/${id}?key=${PERENUAL_KEY}`
-  );
+  const response = await perenualAPI(null, id);
 
-  const { data } = response;
-
-  res.status(StatusCodes.OK).json({ data });
+  res.status(StatusCodes.OK).json({ response });
 };
 
-module.exports = { identifyPlants, plantData };
+const allPlantsData = async (req, res) => {
+  const { name } = req.query;
+
+  if (!name) {
+    throw new CustomAPIError(
+      "Missing name query parameter",
+      StatusCodes.BAD_REQUEST
+    );
+  }
+
+  const response = await perenualAPI(name);
+
+  if (response.total === 0) {
+    throw new CustomAPIError(
+      "Sorry, no results were found",
+      StatusCodes.NOT_FOUND
+    );
+  }
+
+  res.status(StatusCodes.OK).json({ response });
+};
+
+module.exports = { identifyImage, singlePlantData, allPlantsData };
