@@ -279,15 +279,6 @@ paths:
                         "id": 2498,
                         "common_name": "Venus fly trap",
                         "scientific_name": ["Dionaea muscipula"],
-                        "other_name": [],
-                        "family": "Droseraceae",
-                        "hybrid": null,
-                        "authority": null,
-                        "subspecies": null,
-                        "cultivar": null,
-                        "variety": null,
-                        "species_epithet": "muscipula",
-                        "genus": "Dionaea",
                         "default_image":
                           {
                             "license": 45,
@@ -300,8 +291,81 @@ paths:
                             "thumbnail": "https://perenual.com/storage/species_image/2498_dionaea_muscipula/thumbnail/2560px-Dionaea_muscipula2C_exhibition_in_Botanical_garden_Brno.jpg",
                           },
                       },
+                      {
+                        "id": 2499,
+                        "common_name": "Venus fly trap",
+                        "scientific_name": ["Dionaea muscipula 'Akai Ryu'"],
+                        "default_image":
+                          {
+                            "license": 6,
+                            "license_name": "Attribution-NoDerivs License",
+                            "license_url": "https://creativecommons.org/licenses/by-nd/2.0/",
+                            "original_url": "https://perenual.com/storage/species_image/2499_dionaea_muscipula_akai_ryu/og/5638466264_af7c4be36f_b.jpg",
+                          },
+                      },
                     ],
-                  "length": 1,
+                  "total": 2,
+                }
+          headers: {}
+      deprecated: false
+
+    get:
+      tags:
+        - Identify Plants
+      summary: Get all plants by name
+      operationId: GetAllPlantsByName
+      parameters:
+        - in: query
+          name: name
+          required: true
+          schema:
+            type: string
+            example: pine
+          description: The name of the plant to search for
+
+      responses:
+        "200":
+          description: "Successful Response"
+          content:
+            application/json:
+              example:
+                {
+                  "data":
+                    [
+                      {
+                        "id": 7,
+                        "common_name": "Alpine Fir",
+                        "scientific_name": ["Abies lasiocarpa"],
+                        "default_image":
+                          {
+                            "license": 5,
+                            "license_name": "Attribution-ShareAlike License",
+                            "license_url": "https://creativecommons.org/licenses/by-sa/2.0/",
+                            "original_url": "https://perenual.com/storage/species_image/7_abies_lasiocarpa/og/51002756843_74fae3c2fa_b.jpg",
+                            "regular_url": "https://perenual.com/storage/species_image/7_abies_lasiocarpa/regular/51002756843_74fae3c2fa_b.jpg",
+                            "medium_url": "https://perenual.com/storage/species_image/7_abies_lasiocarpa/medium/51002756843_74fae3c2fa_b.jpg",
+                            "small_url": "https://perenual.com/storage/species_image/7_abies_lasiocarpa/small/51002756843_74fae3c2fa_b.jpg",
+                            "thumbnail": "https://perenual.com/storage/species_image/7_abies_lasiocarpa/thumbnail/51002756843_74fae3c2fa_b.jpg",
+                          },
+                      },
+                      {
+                        "id": 82,
+                        "common_name": "Nishiki Gawa Japanese Maple*",
+                        "scientific_name": ["Acer palmatum 'Nishiki Gawa'"],
+                        "default_image":
+                          {
+                            "license": 451,
+                            "license_name": "CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
+                            "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+                            "original_url": "https://perenual.com/storage/species_image/82_acer_palmatum_nishiki_gawa/og/pexels-photo-4977537.jpg",
+                            "regular_url": "https://perenual.com/storage/species_image/82_acer_palmatum_nishiki_gawa/regular/pexels-photo-4977537.jpg",
+                            "medium_url": "https://perenual.com/storage/species_image/82_acer_palmatum_nishiki_gawa/medium/pexels-photo-4977537.jpg",
+                            "small_url": "https://perenual.com/storage/species_image/82_acer_palmatum_nishiki_gawa/small/pexels-photo-4977537.jpg",
+                            "thumbnail": "https://perenual.com/storage/species_image/82_acer_palmatum_nishiki_gawa/thumbnail/pexels-photo-4977537.jpg",
+                          },
+                      },
+                    ],
+                  "total": 2,
                 }
           headers: {}
       deprecated: false
@@ -312,7 +376,7 @@ paths:
         name: plantID
         schema:
           type: string
-          example: 502
+          example: 2230
         required: true
         description: The plant ID
 
@@ -331,109 +395,45 @@ paths:
                 {
                   "data":
                     {
-                      "id": 502,
-                      "common_name": "hot water plant",
-                      "scientific_name": ["Achimenes (group)"],
-                      "other_name": [],
-                      "family": "Gesneriaceae",
-                      "hybrid": null,
-                      "authority": null,
-                      "subspecies": null,
-                      "cultivar": null,
-                      "variety": null,
-                      "species_epithet": "(group)",
-                      "genus": "Achimenes",
+                      "id": 2230,
+                      "common_name": "crocus",
+                      "scientific_name": ["Crocus luteus 'Golden Yellow'"],
                       "origin":
                         [
-                          "Mexico",
-                          "Guatemala",
-                          "Honduras",
-                          "Costa Rica",
-                          "Panama",
-                          "Colombia",
-                          "Venezuela",
-                          "Ecuador",
-                          "Peru",
+                          "Turkey",
+                          "Greece",
+                          "Bulgaria",
+                          "Albania",
+                          "Macedonia",
+                          "Serbia",
+                          "Montenegro",
+                          "Bosnia and Herzegovina",
+                          "Croatia",
                         ],
-                      "type": "Herbs",
-                      "dimensions":
-                        [
-                          {
-                            "type": null,
-                            "min_value": 1,
-                            "max_value": 2,
-                            "unit": "feet",
-                          },
-                        ],
-                      "cycle": "Herbaceous Perennial",
-                      "attracts": [],
-                      "propagation":
-                        [
-                          "Division",
-                          "Cutting",
-                          "Seed Propagation",
-                          "Tissue Culture",
-                        ],
-                      "hardiness": { "min": "10", "max": "11" },
+                      "hardiness_zones": { "min": "3", "max": "8" },
                       "hardiness_location":
                         {
-                          "full_url": "https://perenual.com/api/hardiness-map?species_id=502&size=og&key=sk-7wRB68a4e4efc60fe11920",
-                          "full_iframe": "<iframe frameborder=0 scrolling=yes seamless=seamless width=1000 height=550 style='margin:auto;' src='https://perenual.com/api/hardiness-map?species_id=502&size=og&key=sk-7wRB68a4e4efc60fe11920'></iframe>",
+                          "full_url": "https://perenual.com/api/hardiness-map?species_id=2230&size=og&key=sk-7wRB68a4e4efc60fe11920",
+                          "full_iframe": "<iframe frameborder=0 scrolling=yes seamless=seamless width=1000 height=550 style='margin:auto;' src='https://perenual.com/api/hardiness-map?species_id=2230&size=og&key=sk-7wRB68a4e4efc60fe11920'></iframe>",
                         },
-                      "watering": "Average",
-                      "watering_general_benchmark":
-                        { "value": null, "unit": "days" },
-                      "plant_anatomy": [],
-                      "sunlight": ["part shade"],
-                      "pruning_month":
-                        [
-                          "May",
-                          "March",
-                          "April",
-                          "May",
-                          "June",
-                          "July",
-                          "August",
-                          "September",
-                        ],
-                      "pruning_count": [],
-                      "seeds": false,
-                      "maintenance": "Moderate",
-                      "care_guides": "http://perenual.com/api/species-care-guide-list?species_id=502&key=sk-7wRB68a4e4efc60fe11920",
-                      "soil": [],
+                      "description": "Crocus luteus 'Golden Yellow' is truly an amazing flower. Its vibrant sunny yellow petals are a sight to behold! They stand atop thin green stems and offer a cheerful splash of color to any garden setting. As a spring-blooming perennial, it's hardy in most climates, and its spectacular display will reappear year after year. The lovely, aromatic blooms also attract bees and other pollinators, making it an excellent choice for butterfly gardens. Not a fan of mowing the lawn? Planting Crocus luteus 'Golden Yellow' in large clumps will provide a beautiful, low-maintenance, natural alternative and can even resist light foot traffic!",
+                      "default_image":
+                        {
+                          "license": 45,
+                          "license_name": "Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)",
+                          "license_url": "https://creativecommons.org/licenses/by-sa/3.0/deed.en",
+                          "original_url": "https://perenual.com/storage/species_image/2230_crocus_luteus_golden_yellow/og/Crocus_ancyrensis002.jpg",
+                          "regular_url": "https://perenual.com/storage/species_image/2230_crocus_luteus_golden_yellow/regular/Crocus_ancyrensis002.jpg",
+                          "medium_url": "https://perenual.com/storage/species_image/2230_crocus_luteus_golden_yellow/medium/Crocus_ancyrensis002.jpg",
+                          "small_url": "https://perenual.com/storage/species_image/2230_crocus_luteus_golden_yellow/small/Crocus_ancyrensis002.jpg",
+                          "thumbnail": "https://perenual.com/storage/species_image/2230_crocus_luteus_golden_yellow/thumbnail/Crocus_ancyrensis002.jpg",
+                        },
+                      "cycle": "Perennial",
+                      "sunlight": ["Full sun", "part shade"],
                       "growth_rate": "Low",
-                      "drought_tolerant": false,
-                      "salt_tolerant": false,
-                      "thorny": false,
-                      "invasive": false,
-                      "tropical": false,
-                      "indoor": true,
-                      "care_level": "Medium",
-                      "pest_susceptibility": [],
-                      "flowers": true,
-                      "flowering_season": null,
-                      "cones": false,
-                      "fruits": false,
-                      "edible_fruit": false,
-                      "harvest_season": null,
-                      "leaf": true,
-                      "edible_leaf": false,
-                      "cuisine": false,
-                      "medicinal": false,
-                      "poisonous_to_humans": false,
-                      "poisonous_to_pets": false,
-                      "description": "The Hot Water Plant is an awesome choice of species for any avid gardener. It is a perennial plant, with unique and exotic blooms in a variety of shapes and colors, that can be grown indoors or outdoors. These plants are incredibly adaptive, thriving in all sorts of climates, from warm rainforest environments to cool temperate locations. In order to grow them, simply fill any container with water, place the root-ball into it, and enjoy the beautiful flowers that emerge for months. Hot Water Plants are also great for propagating and are incredibly low-maintenance, surviving both drought and short-term flooding easily. A truly amazing species that anyone can grow.",
-                      "default_image": null,
-                      "other_images": "Upgrade Plan To Supreme For Access https://perenual.com/subscription-api-pricing. Im sorry",
-                      "xWateringQuality": "Upgrade Plan To Supreme For Access https://perenual.com/subscription-api-pricing. Im sorry",
-                      "xWateringPeriod": "Upgrade Plan To Supreme For Access https://perenual.com/subscription-api-pricing. Im sorry",
-                      "xWateringAvgVolumeRequirement": "Upgrade Plan To Supreme For Access https://perenual.com/subscription-api-pricing. Im sorry",
-                      "xWateringDepthRequirement": "Upgrade Plan To Supreme For Access https://perenual.com/subscription-api-pricing. Im sorry",
-                      "xWateringBasedTemperature": "Upgrade Plan To Supreme For Access https://perenual.com/subscription-api-pricing. Im sorry",
-                      "xWateringPhLevel": "Upgrade Plan To Supreme For Access https://perenual.com/subscription-api-pricing. Im sorry",
-                      "xSunlightDuration": "Upgrade Plan To Supreme For Access https://perenual.com/subscription-api-pricing. Im sorry",
-                      "xTemperatureTolence": "Upgrade Plan To Supreme For Access https://perenual.com/subscription-api-pricing. Im sorry",
-                      "xPlantSpacingRequirement": "Upgrade Plan To Supreme For Access https://perenual.com/subscription-api-pricing. Im sorry",
+                      "care_level": "Moderate",
+                      "watering": "Average",
+                      "maintenance": "Low",
                     },
                 }
           headers: {}

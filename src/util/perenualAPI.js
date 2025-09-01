@@ -29,13 +29,22 @@ const perenualAPI = async (name, plantID) => {
   );
   const { data } = response;
 
-  //TODO ``** Filter the data coming back from this request. Make sure it works correctly with the allPlantsData and the identifyImage functions in identify-plants-controllers file
-
-  // return filterData(data);
-  return data;
+  return filterAllPlantData(data);
 };
 
 module.exports = perenualAPI;
+
+const filterAllPlantData = (dataObj) => {
+  let data = [];
+
+  dataObj.data.forEach((entry) => {
+    const { id, common_name, scientific_name, default_image } = entry;
+
+    data.push({ id, common_name, scientific_name, default_image });
+  });
+
+  return { data, total: data.length };
+};
 
 const filterSinglePlantData = (data) => {
   const {

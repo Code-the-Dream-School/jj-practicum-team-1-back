@@ -58,8 +58,8 @@ const identifyImage = async (req, res) => {
   );
 
   if (
-    perenualCommonNameResponse.data.total === 0 &&
-    perenualScientificNameResponse.data.total === 0
+    perenualCommonNameResponse.total === 0 &&
+    perenualScientificNameResponse.total === 0
   ) {
     throw new CustomAPIError(
       "Sorry, no results were found",
@@ -68,8 +68,8 @@ const identifyImage = async (req, res) => {
   }
 
   const combinedResponses = [
-    ...perenualCommonNameResponse.data.data,
-    ...perenualScientificNameResponse.data.data,
+    ...perenualCommonNameResponse.data,
+    ...perenualScientificNameResponse.data,
   ];
 
   // **`` Filters out the duplicates by id
@@ -82,16 +82,16 @@ const identifyImage = async (req, res) => {
 
   res.status(StatusCodes.OK).json({
     data: reducedResponse,
-    length: reducedResponse.length,
+    total: reducedResponse.length,
   });
 };
 
 const singlePlantData = async (req, res) => {
   const { id } = req.params;
 
-  const response = await perenualAPI(null, id);
+  const data = await perenualAPI(null, id);
 
-  res.status(StatusCodes.OK).json({ response });
+  res.status(StatusCodes.OK).json({ data });
 };
 
 const allPlantsData = async (req, res) => {
@@ -113,7 +113,7 @@ const allPlantsData = async (req, res) => {
     );
   }
 
-  res.status(StatusCodes.OK).json({ response });
+  res.status(StatusCodes.OK).json(response);
 };
 
 module.exports = { identifyImage, singlePlantData, allPlantsData };
