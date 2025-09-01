@@ -128,7 +128,7 @@ paths:
                         "_id": "68979fc17f6eddd77c76db3s",
                         "name": "rose",
                         "createdBy": "68958ea9316675518a96b421",
-                        "imageURL": "www.rose-pic.com",
+                        "imageURL": "https://storage.googleapis.com/plant-app-4a554.firebasestorage.app/plants/1756666481871-cactus.jpg",
                         "notes": "This rose is beautiful!",
                         "location": "222 N Smith Ln",
                         "createdAt": "2025-08-09T19:21:37.403Z",
