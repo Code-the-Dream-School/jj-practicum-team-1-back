@@ -29,8 +29,6 @@ const perenualAPI = async (name, plantID) => {
   );
   const { data } = response;
 
-  //TODO ``** Since I accidentally added the firebase-key.json file to the commit, I need to switch to main, pull from origin, then copy all my files that I changed under my add_explorer branch. Make sure I've included the .gitignore with firebase in it!! Then I can add, commit, and push
-
   //TODO ``** Filter the data coming back from this request. Make sure it works correctly with the allPlantsData and the identifyImage functions in identify-plants-controllers file
 
   // return filterData(data);
