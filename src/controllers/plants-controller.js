@@ -1,7 +1,6 @@
 const Plant = require("../models/Plant");
 const { StatusCodes } = require("http-status-codes");
 const CustomAPIError = require("../errors/custom-error");
-const bucket = require("../firebase");
 
 const getAllPlants = async (req, res) => {
   try {
@@ -92,40 +91,9 @@ const updateSinglePlant = async (req, res) => {
 };
 
 const createPlantEntry = async (req, res) => {
-  try {
-    req.body.createdBy = req.user.userId;
-    const file = req.file; // multer puts uploaded file here
-    let imageURL = null;
-
-    if (file) {
-      const blob = bucket.file(`plants/${Date.now()}-${file.originalname}`);
-      const blobStream = blob.createWriteStream({
-        metadata: { contentType: file.mimetype },
-      });
-
-      blobStream.end(file.buffer);
-
-      await new Promise((resolve, reject) => {
-        blobStream.on("finish", resolve);
-        blobStream.on("error", reject);
-      });
-
-      imageURL = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
-    }
-
-    const plant = await Plant.create({
-      name: req.body.name,
-      notes: req.body.notes,
-      location: req.body.location,
-      createdBy: req.user.userId,
-      imageURL,
-    });
-
-    res.status(StatusCodes.CREATED).json({ plant });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: error.message });
-  }
+  req.body.createdBy = req.user.userId;
+  const plant = await Plant.create(req.body);
+  res.status(StatusCodes.CREATED).json({ plant });
 };
 
 const deleteSinglePlant = async (req, res) => {
