@@ -67,6 +67,27 @@ paths:
                 }
       security: []
 
+      # post:
+      # tags:
+      #   - Identify Plants
+      # summary: Identify plant by image
+      # operationId: identifyPlants
+      # parameters: []
+      # requestBody:
+      #   description: ""
+      #   content:
+      #     multipart/form-data:
+      #       schema:
+      #         type: object
+      #         $ref: "#/components/schemas/IdentifyPlantsRequest"
+      #         properties:
+      #           images:
+      #             type: string
+      #             format: binary
+      #   required: true
+      # responses:
+      #   "200":
+
   /plants:
     post:
       tags:
@@ -77,14 +98,9 @@ paths:
       requestBody:
         description: ""
         content:
-          application/json:
+          multipart/form-data:
             schema:
               $ref: "#/components/schemas/CreatePlantEntryRequest"
-            example:
-              name: "palm tree"
-              imageURL: "www.coastal-trees.com"
-              notes: "It has coconuts"
-              location: "The beach"
         required: true
       responses:
         "201":
@@ -96,7 +112,7 @@ paths:
                   "plant":
                     {
                       "name": "palm tree",
-                      "imageURL": "www.coastal-trees.com",
+                      "imageURL": "https://storage.googleapis.com/plant-app-4a554.firebasestorage.app/plants/1756775676041-palm-tree.jpeg",
                       "notes": "It has coconuts",
                       "location": "The beach",
                       "createdBy": "68958ea9316675518a96b420",
@@ -483,17 +499,13 @@ components:
       properties:
         name:
           type: string
-        imageURL:
+        location:
           type: string
         notes:
           type: string
-        location:
+        file:
           type: string
-      example:
-        name: oak tree
-        imageURL: www.oaktrees.net
-        notes: Massive oak tree I saw!
-        location: near the forest south of town
+          format: binary
 
     UpdatePlantEntryRequest:
       title: UpdatePlantEntryRequest
