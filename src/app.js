@@ -14,10 +14,10 @@ const auth = require("./middleware/authentication.js");
 const swaggerDocument = YAML.load("./swagger.yaml");
 
 // Security
-const cors = require('cors');
-const helmet= require('helmet');
-const xss = require('xss-clean');
-const rateLimiter= require('express-rate-limit');
+const cors = require("cors");
+const helmet = require("helmet");
+const xss = require("xss-clean");
+const rateLimiter = require("express-rate-limit");
 
 // middleware
 app.use(cors());
@@ -27,13 +27,14 @@ app.use(logger("dev"));
 app.use(express.static("public"));
 app.use(favicon(__dirname + "/public/favicon.ico"));
 
-app.use(helmet())
-app.use(xss())
+app.use(helmet());
+app.use(xss());
 
-app.set('trust proxy',1)
-app.use(rateLimiter({
+app.set("trust proxy", 1);
+app.use(
+  rateLimiter({
     windowMs: 15 * 60 * 1000,
-    max:100,
+    max: 100,
   })
 );
 

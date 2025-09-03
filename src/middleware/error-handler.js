@@ -10,9 +10,10 @@ const errorHandlerMiddleware = (err, req, res, next) => {
     statusCode:
       err.statusCode || err.status || StatusCodes.INTERNAL_SERVER_ERROR,
     msg:
-      err.response.data.message ||
-      err.response.statusText ||
+      err.response?.data?.message ||
+      err.response?.statusText ||
       err.message ||
+      err.ReferenceError ||
       "Something went wrong. Try again later.",
   };
 
