@@ -94,7 +94,7 @@ const updateSinglePlant = async (req, res) => {
 const createPlantEntry = async (req, res) => {
   try {
     req.body.createdBy = req.user.userId;
-    const file = req.file; 
+    const file = req.file;
     let imageURL = null;
 
     if (file) {
@@ -110,7 +110,9 @@ const createPlantEntry = async (req, res) => {
         blobStream.on("error", reject);
       });
 
-      imageURL = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${encodeURIComponent(blob.name)}?alt=media`;
+      imageURL = `https://firebasestorage.googleapis.com/v0/b/${
+        bucket.name
+      }/o/${encodeURIComponent(blob.name)}?alt=media`;
     }
 
     const plant = await Plant.create({
@@ -140,7 +142,10 @@ const deleteSinglePlant = async (req, res) => {
   });
 
   if (!plant) {
-    throw new CustomAPIError(`No plant with id ${plantId}`);
+    throw new CustomAPIError(
+      `No plant with id ${plantId}`,
+      StatusCodes.NOT_FOUND
+    );
   }
 
   res
