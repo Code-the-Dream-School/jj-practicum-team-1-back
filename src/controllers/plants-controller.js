@@ -65,15 +65,14 @@ const getSinglePlant = async (req, res) => {
 };
 
 const updateSinglePlant = async (req, res) => {
+  if (Object.keys(req.body).length === 0) {
+    throw new CustomAPIError("Request is empty", StatusCodes.BAD_REQUEST);
+  }
+
   const {
-    body: { name, imageURL, notes, location },
     user: { userId },
     params: { id: plantId },
   } = req;
-
-  if (name === "" || imageURL === "" || notes === "" || location === "") {
-    throw new CustomAPIError("Fields cannot be empty", StatusCodes.BAD_REQUEST);
-  }
 
   const plant = await Plant.findByIdAndUpdate(
     { _id: plantId, createdBy: userId },
