@@ -91,6 +91,7 @@ const updateSinglePlant = async (req, res) => {
 };
 
 const createPlantEntry = async (req, res) => {
+  console.log("req.body:", req.body);
   try {
     req.body.createdBy = req.user.userId;
     const file = req.file;
@@ -112,6 +113,8 @@ const createPlantEntry = async (req, res) => {
       imageURL = `https://firebasestorage.googleapis.com/v0/b/${
         bucket.name
       }/o/${encodeURIComponent(blob.name)}?alt=media`;
+    } else if (req.body.imageURL) {
+      imageURL = req.body.imageURL;
     }
 
     const plant = await Plant.create({
@@ -124,8 +127,7 @@ const createPlantEntry = async (req, res) => {
 
     res.status(StatusCodes.CREATED).json({ plant });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: error.message });
+    res.status(StatusCodes.BAD_REQUEST).json({ error: error.message });
   }
 };
 
