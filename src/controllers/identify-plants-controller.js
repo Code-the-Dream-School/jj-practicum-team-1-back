@@ -2,21 +2,20 @@ const { StatusCodes } = require("http-status-codes");
 const CustomAPIError = require("../errors/custom-error");
 const FormData = require("form-data");
 const axios = require("axios");
+const perenualAPI = require("../util/perenualAPI");
 
 const PLANTNET_KEY = process.env.PLANTNET_KEY;
-const PERENUAL_KEY = process.env.PERENUAL_KEY;
 
-if (!PERENUAL_KEY) {
-  throw new CustomAPIError("No PERENUAL_KEY provided", StatusCodes.BAD_REQUEST);
-}
-
-if (!PLANTNET_KEY) {
-  throw new CustomAPIError("No PLANTNET_KEY provided", StatusCodes.BAD_REQUEST);
-}
-
-const identifyPlants = async (req, res) => {
+const identifyImage = async (req, res) => {
   if (!req.file) {
     throw new CustomAPIError("No image file provided", StatusCodes.BAD_REQUEST);
+  }
+
+  if (!PLANTNET_KEY) {
+    throw new CustomAPIError(
+      "No PLANTNET_KEY provided",
+      StatusCodes.BAD_REQUEST
+    );
   }
 
   const form = new FormData();
@@ -50,17 +49,17 @@ const identifyPlants = async (req, res) => {
   const plantnetScientificNameCorrectURLFormat =
     plantnetScientificName.replaceAll(" ", "+");
 
-  const perenualCommonNameResponse = await axios.get(
-    `https://perenual.com/api/v2/species-list?key=${PERENUAL_KEY}=${plantnetCommonNameCorrectURLFormat}`
+  const perenualCommonNameResponse = await perenualAPI(
+    plantnetCommonNameCorrectURLFormat
   );
 
-  const perenualScientificNameResponse = await axios.get(
-    `https://perenual.com/api/v2/species-list?key=${PERENUAL_KEY}=${plantnetScientificNameCorrectURLFormat}`
+  const perenualScientificNameResponse = await perenualAPI(
+    plantnetScientificNameCorrectURLFormat
   );
 
   if (
-    perenualCommonNameResponse.data.total === 0 &&
-    perenualScientificNameResponse.data.total === 0
+    perenualCommonNameResponse.total === 0 &&
+    perenualScientificNameResponse.total === 0
   ) {
     throw new CustomAPIError(
       "Sorry, no results were found",
@@ -69,8 +68,8 @@ const identifyPlants = async (req, res) => {
   }
 
   const combinedResponses = [
-    ...perenualCommonNameResponse.data.data,
-    ...perenualScientificNameResponse.data.data,
+    ...perenualCommonNameResponse.data,
+    ...perenualScientificNameResponse.data,
   ];
 
   // **`` Filters out the duplicates by id
@@ -83,20 +82,38 @@ const identifyPlants = async (req, res) => {
 
   res.status(StatusCodes.OK).json({
     data: reducedResponse,
-    length: reducedResponse.length,
+    total: reducedResponse.length,
   });
 };
 
-const plantData = async (req, res) => {
+const singlePlantData = async (req, res) => {
   const { id } = req.params;
 
-  const response = await axios.get(
-    `https://perenual.com/api/v2/species/details/${id}?key=${PERENUAL_KEY}`
-  );
-
-  const { data } = response;
+  const data = await perenualAPI(null, id);
 
   res.status(StatusCodes.OK).json({ data });
 };
 
-module.exports = { identifyPlants, plantData };
+const allPlantsData = async (req, res) => {
+  const { name } = req.query;
+
+  if (!name) {
+    throw new CustomAPIError(
+      "Missing name query parameter",
+      StatusCodes.BAD_REQUEST
+    );
+  }
+
+  const response = await perenualAPI(name);
+
+  if (response.total === 0) {
+    throw new CustomAPIError(
+      "Sorry, no results were found",
+      StatusCodes.NOT_FOUND
+    );
+  }
+
+  res.status(StatusCodes.OK).json(response);
+};
+
+module.exports = { identifyImage, singlePlantData, allPlantsData };

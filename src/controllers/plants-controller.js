@@ -65,15 +65,14 @@ const getSinglePlant = async (req, res) => {
 };
 
 const updateSinglePlant = async (req, res) => {
+  if (Object.keys(req.body).length === 0) {
+    throw new CustomAPIError("Request is empty", StatusCodes.BAD_REQUEST);
+  }
+
   const {
-    body: { name, imageURL, notes, location },
     user: { userId },
     params: { id: plantId },
   } = req;
-
-  if (name === "" || imageURL === "" || notes === "" || location === "") {
-    throw new CustomAPIError("Fields cannot be empty", StatusCodes.BAD_REQUEST);
-  }
 
   const plant = await Plant.findByIdAndUpdate(
     { _id: plantId, createdBy: userId },
@@ -92,9 +91,10 @@ const updateSinglePlant = async (req, res) => {
 };
 
 const createPlantEntry = async (req, res) => {
+  console.log("req.body:", req.body);
   try {
     req.body.createdBy = req.user.userId;
-    const file = req.file; 
+    const file = req.file;
     let imageURL = null;
 
     if (file) {
@@ -110,7 +110,11 @@ const createPlantEntry = async (req, res) => {
         blobStream.on("error", reject);
       });
 
-      imageURL = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${encodeURIComponent(blob.name)}?alt=media`;
+      imageURL = `https://firebasestorage.googleapis.com/v0/b/${
+        bucket.name
+      }/o/${encodeURIComponent(blob.name)}?alt=media`;
+    } else if (req.body.imageURL) {
+      imageURL = req.body.imageURL;
     }
 
     const plant = await Plant.create({
@@ -123,8 +127,7 @@ const createPlantEntry = async (req, res) => {
 
     res.status(StatusCodes.CREATED).json({ plant });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: error.message });
+    res.status(StatusCodes.BAD_REQUEST).json({ error: error.message });
   }
 };
 
@@ -140,7 +143,10 @@ const deleteSinglePlant = async (req, res) => {
   });
 
   if (!plant) {
-    throw new CustomAPIError(`No plant with id ${plantId}`);
+    throw new CustomAPIError(
+      `No plant with id ${plantId}`,
+      StatusCodes.NOT_FOUND
+    );
   }
 
   res
