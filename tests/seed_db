@@ -1,0 +1,48 @@
+const mongoose = require("mongoose");
+const Plant = require("../src/models/Plant");
+const User = require("../src/models/Auth");
+const { fakerEN_US: faker } = require("@faker-js/faker");
+require("dotenv").config();
+
+const testUserPassword = faker.internet.password();
+
+const seed_db = async () => {
+  let testUser = null;
+  try {
+    const mongoURL = process.env.MONGO_URI_TEST;
+    await mongoose.connect(mongoURL);
+
+    // Clear old test data
+    await Plant.deleteMany({});
+    await User.deleteMany({});
+
+    // Create a test user
+    testUser = await User.create({
+      name: faker.person.fullName(),
+      email: faker.internet.email(),
+      password: testUserPassword,
+    });
+
+    // Create 5 random plants for this user
+    const plantPromises = Array.from({ length: 5 }).map(() => {
+      return Plant.create({
+        name: faker.word.noun(),
+        imageURL: faker.image.urlLoremFlickr({ category: "nature" }),
+        notes: faker.lorem.sentence(),
+        location: faker.location.city(),
+        createdBy: testUser._id,
+      });
+    });
+
+    await Promise.all(plantPromises);
+
+    console.log("✅ Plant seeding complete.");
+  } catch (e) {
+    console.error("❌ Database seeding error:", e.message);
+    throw e;
+  }
+
+  return testUser;
+};
+
+module.exports = { testUserPassword, seed_db };

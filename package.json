@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon src/server.js",
-    "test":"NODE_ENV=test mocha tests/*.js --timeout 5000 --exit"
+    "test": "NODE_ENV=test mocha tests/*.js --timeout 10000 --exit"
   },
   "author": "",
   "license": "ISC",
@@ -31,9 +31,12 @@
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
-    "chai": "^6.0.1",
+    "@faker-js/faker": "^9.8.0",
+    "chai": "^5.2.0",
     "chai-http": "^5.1.2",
-    "mocha": "^11.7.2",
-    "nodemon": "^3.1.10"
+    "factory-bot": "^6.3.1",
+    "mocha": "^11.7.1",
+    "nodemon": "^3.1.10",
+    "puppeteer": "^24.11.1"
   }
 }
