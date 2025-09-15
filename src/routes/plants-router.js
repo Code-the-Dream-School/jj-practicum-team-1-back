@@ -18,7 +18,7 @@ router
 router
   .route("/:id")
   .get(getSinglePlant)
-  .patch(updateSinglePlant)
+  .patch(upload.single("file"), updateSinglePlant)
   .delete(deleteSinglePlant);
 
 module.exports = router;

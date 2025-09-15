@@ -65,7 +65,7 @@ const getSinglePlant = async (req, res) => {
 };
 
 const updateSinglePlant = async (req, res) => {
-  if (Object.keys(req.body).length === 0) {
+  if (Object.keys(req.body).length === 0 && !req.file) {
     throw new CustomAPIError("Request is empty", StatusCodes.BAD_REQUEST);
   }
 
@@ -74,20 +74,63 @@ const updateSinglePlant = async (req, res) => {
     params: { id: plantId },
   } = req;
 
-  const plant = await Plant.findByIdAndUpdate(
-    { _id: plantId, createdBy: userId },
-    req.body,
-    { new: true, runValidators: true }
-  );
+  try {
+    const existingPlant = await Plant.findOne({
+      _id: plantId,
+      createdBy: userId,
+    });
+    if (!existingPlant) {
+      throw new CustomAPIError(
+        `No plant with the id ${plantId}`,
+        StatusCodes.NOT_FOUND
+      );
+    }
 
-  if (!plant) {
-    throw new CustomAPIError(
-      `No plant with the id ${plantId}`,
-      StatusCodes.NOT_FOUND
+    let updateData = { ...req.body };
+
+    if (req.file) {
+      const file = req.file;
+
+      if (existingPlant.imageURL) {
+        try {
+          const path = decodeURIComponent(
+            existingPlant.imageURL.split("/o/")[1].split("?")[0]
+          );
+          await bucket.file(path).delete();
+          console.log(`Deleted old image: ${path}`);
+        } catch (err) {
+          console.warn("Old image not found in Firebase, skipping delete.");
+        }
+      }
+      const blob = bucket.file(`plants/${Date.now()}-${file.originalname}`);
+      const blobStream = blob.createWriteStream({
+        metadata: { contentType: file.mimetype },
+      });
+
+      blobStream.end(file.buffer);
+
+      await new Promise((resolve, reject) => {
+        blobStream.on("finish", resolve);
+        blobStream.on("error", reject);
+      });
+
+      const imageURL = `https://firebasestorage.googleapis.com/v0/b/${
+        bucket.name
+      }/o/${encodeURIComponent(blob.name)}?alt=media`;
+
+      updateData.imageURL = imageURL;
+    }
+
+    const plant = await Plant.findOneAndUpdate(
+      { _id: plantId, createdBy: userId },
+      updateData,
+      { new: true, runValidators: true }
     );
-  }
 
-  res.status(StatusCodes.OK).json({ plant });
+    res.status(StatusCodes.OK).json({ plant });
+  } catch (error) {
+    res.status(StatusCodes.BAD_REQUEST).json({ error: error.message });
+  }
 };
 
 const createPlantEntry = async (req, res) => {
