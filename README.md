@@ -72,7 +72,7 @@ plantapp-backend/
 Clone the repo
 
 git clone https://github.com/Code-the-Dream-School/jj-practicum-team-1-back.git
-cd plantapp-backend
+
 
 
 Install dependencies
