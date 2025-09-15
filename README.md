@@ -1,6 +1,6 @@
 # 🌱 PlantApp Backend
 
-PlantApp is a plant observation and identification app that allows users to upload photos of plants, get automatic identification suggestions via the **Pl@ntNet API**, and share their observations with a community.  
+PlantApp is a plant observation and identification app that allows users to upload photos of plants, get automatic identification suggestions via the **perenual API**, and share their observations with a community.  
 This repo contains the **backend API** built with **Node.js** and **Express.js**, connected to **MongoDB** and **Firebase Storage**, and secured with **JWT authentication**.
 
 ---
@@ -17,7 +17,7 @@ This repo contains the **backend API** built with **Node.js** and **Express.js**
 - 🔑 **User Authentication** – JWT-based login & signup  
 - 🌍 **Public Observation Feed** – browse recent plant posts  
 - 📸 **Observation Posting** – upload plant photos (stored on Firebase) with name, location, and notes  
-- 🌿 **Plant Identification** – powered by Pl@ntNet API integration  
+- 🌿 **Plant Identification** – powered by perenual API integration  
 - 👤 **User Profile** – view and update personal details & activity  
 - 📜 **Activity Feed** – see your own plant observation history  
 - 🔎 **Search & Filter** – by plant name, location, or date  
