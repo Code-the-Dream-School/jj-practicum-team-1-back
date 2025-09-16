@@ -17,8 +17,7 @@ This repo contains the **backend API** built with **Node.js** and **Express.js**
 - 🔑 **User Authentication** – JWT-based login & signup  
 - 🌍 **Public Observation Feed** – browse recent plant posts  
 - 📸 **Observation Posting** – upload plant photos (stored on Firebase) with name, location, and notes  
-- 🌿 **Plant Identification** – powered by perenual API integration  
-- 👤 **User Profile** – view and update personal details & activity  
+- 🌿 **Plant Identification** – powered by perenual API integration   
 - 📜 **Activity Feed** – see your own plant observation history  
 - 🔎 **Search & Filter** – by plant name, location, or date  
 - 🧪 **Testing** – functional tests with Mocha, Chai, Chai HTTP, and Faker  
