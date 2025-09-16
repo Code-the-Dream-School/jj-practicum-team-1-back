@@ -66,19 +66,22 @@ plantapp-backend/
 │── swagger.yaml        # API docs (Swagger)
 │── README.md
 
-
-⚙️ Installation & Setup
+```
+---
+##⚙️ Installation & Setup
 Clone the repo
-
+```bash
 git clone https://github.com/Code-the-Dream-School/jj-practicum-team-1-back.git
 
-
-
-Install dependencies
-
+```
+---
+##Install dependencies
+```bash
 npm install
+```
+---
 
-Set up environment variables
+##Set up environment variables
 Create a .env file based on .env.example and add your keys:
 
 
@@ -88,22 +91,25 @@ JWT_LIFETIME=value
 FIREBASE_KEY=your_firebase_key
 PLANTNET_KEY=your_plantnet_api_key
 PERENUAL_KEY=value
-
-Run the server (dev mode)
-
+---
+##Run the server (dev mode)
+```bash
 npm run dev
-
-Run tests
-
+```
+##Run tests
+```bash
 npm run test
-
-📬 API Usage
+```
+---
+##📬 API Usage
 You can explore endpoints via Swagger UI.
 Or test with Postman using the base URL:
-
+```bash
 https://plantapp-2mp9.onrender.com/api/v1
+```
+---
 
-✅ Core Endpoints
+##✅ Core Endpoints
 Auth
 POST /api/v1/auth/register – Register new user
 
@@ -120,29 +126,31 @@ PUT /api/v1/plants/:id – Update observation (auth required)
 
 DELETE /api/v1/plants/:id – Delete observation (auth required)
 
-
-🧪 Testing
+---
+##🧪 Testing
 We use Mocha + Chai + Chai HTTP + Faker for functional and integration tests.
 
 Run all tests:
+```bash
 npm run test
-
-📸 Storage
+```
+---
+##📸 Storage
 Plant observation images are stored in Firebase Storage.
 
 Plants metadata (name, notes, location, etc.) is stored in MongoDB.
-
-🔐 Authentication
+---
+##🔐 Authentication
 JWT tokens are issued on login/register.
 
 Protected routes require Authorization: Bearer <token> in the header.
-
-🌍 Third-Party API
+---
+##🌍 Third-Party API
 We integrate with the Perenual API for automatic plant identification.
-
-👥 Contributors
+---
+##👥 Contributors
 Jaguar Team 1(Code the Dream)
 
-
-📜 License
+---
+##📜 License
 MIT License – feel free to use and contribute.
