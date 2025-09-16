@@ -85,12 +85,17 @@ npm install
 Create a .env file based on .env.example and add your keys:
 
 
-MONGO_URI=your_mongodb_connection
-JWT_SECRET=your_jwt_secret
-JWT_LIFETIME=value
-FIREBASE_KEY=your_firebase_key
-PLANTNET_KEY=your_plantnet_api_key
-PERENUAL_KEY=value
+**MONGO_URI**=your_mongodb_connection
+
+**JWT_SECRET**=your_jwt_secret
+
+**JWT_LIFETIME**=value
+
+**FIREBASE_KEY**=your_firebase_key
+
+**PLANTNET_KEY**=your_plantnet_api_key
+
+**PERENUAL_KEY**=value
 
 
 ## Run the server (dev mode)
